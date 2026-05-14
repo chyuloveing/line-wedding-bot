@@ -22,9 +22,9 @@ from linebot import LineBotApi
 # LINE 設定
 # =========================
 
-LINE_CHANNEL_ACCESS_TOKEN = '你的LINE_CHANNEL_ACCESS_TOKEN'
+LINE_CHANNEL_ACCESS_TOKEN = 'rKA1dvvFfLCGlLewsWARj/dnSAby/atpPSELd7+9Vx4N9pSAsC0/VIerQp2YKNyPVUM6j2J3XWDTDVgFZye1q4I5iB4AT0i9oUVvI1d9BeiW2ZEQa76M5dtbOm5F/Nb6hv7pAOkbuUOTOmPIy5TIFAdB04t89/1O/w1cDnyilFU='
 
-LINE_CHANNEL_SECRET = '你的LINE_CHANNEL_SECRET'
+LINE_CHANNEL_SECRET = '8a5a65db4f628e6faffbcbd2759f7060'
 
 configuration = Configuration(
     access_token=LINE_CHANNEL_ACCESS_TOKEN
@@ -39,9 +39,9 @@ line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 # =========================
 
 cloudinary.config(
-    cloud_name='你的CloudName',
-    api_key='你的APIKey',
-    api_secret='你的APISecret'
+    cloud_name='dortwkb4r',
+    api_key='668868569426816',
+    api_secret='sEULSrWsIe9pSYiSIhQE1QrVrPE'
 )
 
 # =========================
