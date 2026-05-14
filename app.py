@@ -32,11 +32,11 @@ import os
 # =========================
 
 LINE_CHANNEL_ACCESS_TOKEN = os.getenv(
-    "rKA1dvvFfLCGlLewsWARj/dnSAby/atpPSELd7+9Vx4N9pSAsC0/VIerQp2YKNyPVUM6j2J3XWDTDVgFZye1q4I5iB4AT0i9oUVvI1d9BeiW2ZEQa76M5dtbOm5F/Nb6hv7pAOkbuUOTOmPIy5TIFAdB04t89/1O/w1cDnyilFU="
+    "LINE_CHANNEL_ACCESS_TOKEN"
 )
 
 LINE_CHANNEL_SECRET = os.getenv(
-    "8a5a65db4f628e6faffbcbd2759f7060"
+    "LINE_CHANNEL_SECRET"
 )
 
 configuration = Configuration(
@@ -56,9 +56,9 @@ line_bot_api = LineBotApi(
 # =========================
 
 cloudinary.config(
-    cloud_name=os.getenv("dortwkb4r"),
-    api_key=os.getenv("668868569426816"),
-    api_secret=os.getenv("sEULSrWsIe9pSYiSIhQE1QrVrPE")
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
 
 # =========================
