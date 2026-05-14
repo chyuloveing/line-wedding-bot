@@ -8,7 +8,6 @@ cloudinary.config({
 });
 
 export async function GET() {
-
   try {
 
     const result = await cloudinary.search
@@ -19,7 +18,6 @@ export async function GET() {
 
     const photos = result.resources.map((photo: any) => ({
       url: photo.secure_url,
-      public_id: photo.public_id,
     }));
 
     return NextResponse.json(photos);
@@ -28,9 +26,7 @@ export async function GET() {
 
     console.log(error);
 
-    return NextResponse.json({
-      error: "讀取失敗"
-    });
+    return NextResponse.json([]);
 
   }
 }
