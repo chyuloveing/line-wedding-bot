@@ -79,7 +79,7 @@ export default function LoveStory() {
       {/* 標題 */}
       <div className="absolute top-10 w-full text-center text-white">
         <h1 className="text-3xl md:text-5xl font-bold">
-          我們的故事 ❤️
+          易見傾心❤️渝生相守
         </h1>
       </div>
 
