@@ -1,6 +1,4 @@
-```text id="jlwmr3"
 flask
 line-bot-sdk
 cloudinary
 gunicorn
-```
