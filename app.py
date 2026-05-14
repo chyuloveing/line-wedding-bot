@@ -1,7 +1,13 @@
-```python id="4mjlwm"
 from flask import Flask, request
-from linebot import LineBotApi, WebhookHandler
-from linebot.models import MessageEvent, ImageMessage, TextSendMessage
+from linebot.v3.webhook import WebhookHandler
+from linebot.v3.messaging import (
+    Configuration,
+    ApiClient,
+    MessagingApi,
+    ReplyMessageRequest,
+    TextMessage
+)
+from linebot.v3.webhooks import MessageEvent, ImageMessageContent
 from linebot.exceptions import InvalidSignatureError
 
 import cloudinary
@@ -9,6 +15,8 @@ import cloudinary.uploader
 
 import tempfile
 import os
+
+from linebot import LineBotApi
 
 # =========================
 # LINE 設定
@@ -18,9 +26,13 @@ LINE_CHANNEL_ACCESS_TOKEN = '你的LINE_CHANNEL_ACCESS_TOKEN'
 
 LINE_CHANNEL_SECRET = '你的LINE_CHANNEL_SECRET'
 
-line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
+configuration = Configuration(
+    access_token=LINE_CHANNEL_ACCESS_TOKEN
+)
 
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
+
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 
 # =========================
 # Cloudinary 設定
@@ -58,10 +70,13 @@ def callback():
 # 接收圖片
 # =========================
 
-@handler.add(MessageEvent, message=ImageMessage)
+@handler.add(MessageEvent)
 def handle_image(event):
 
     try:
+
+        if not isinstance(event.message, ImageMessageContent):
+            return
 
         message_content = line_bot_api.get_message_content(
             event.message.id
@@ -87,29 +102,30 @@ def handle_image(event):
 
         os.remove(temp_path)
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text=
-f'''📸 照片已上傳成功 ❤️
+        with ApiClient(configuration) as api_client:
+
+            line_bot_api_v3 = MessagingApi(api_client)
+
+            line_bot_api_v3.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        TextMessage(
+                            text=f'''📸 照片已上傳成功 ❤️
 
 🔗 照片網址：
 {image_url}
 
 感謝分享婚禮回憶 ✨'''
+                        )
+                    ]
+                )
             )
-        )
 
     except Exception as e:
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(
-                text=f'❌ 上傳失敗\n{str(e)}'
-            )
-        )
+        print(e)
 
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=10000)
-```
