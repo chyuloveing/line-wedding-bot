@@ -46,7 +46,7 @@ export default function LoveStory() {
 
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % photos.length);
-    }, 3000); // 每3秒切換
+    }, 5000); // 每5秒切換
 
     return () => clearInterval(interval);
   }, [started]);
