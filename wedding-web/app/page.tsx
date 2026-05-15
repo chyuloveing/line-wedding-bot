@@ -79,7 +79,7 @@ export default function Page() {
       <section className="relative h-screen">
 
         <img
-          src="/wedding-web/public/photos/16.TS-TIN-20260110.jpg"
+          src="/photos/16.TS-TIN-20260110.jpg"
           className="absolute inset-0 w-full h-full object-cover brightness-[55%]"
         />
 
@@ -151,7 +151,7 @@ export default function Page() {
 
         <div>
           <img
-            src="/wedding-web/public/photos/15.TS-TIN-20260110.jpg"
+            src="/photos/15.TS-TIN-20260110.jpg"
             className="w-full h-full object-cover"
           />
         </div>
@@ -203,17 +203,17 @@ export default function Page() {
         <div className="grid lg:grid-cols-3 gap-6">
 
           <img
-            src="/wedding-web/public/photos/7.TS-TIN-20260110.jpg"
+            src="/photos/7.TS-TIN-20260110.jpg"
             className="rounded-[30px] h-[500px] object-cover hover:-translate-y-2 duration-500"
           />
 
           <img
-            src="/wedding-web/public/photos/12.TS-TIN-20260110.jpg"
+            src="/photos/12.TS-TIN-20260110.jpg"
             className="rounded-[30px] h-[500px] object-cover hover:-translate-y-2 duration-500"
           />
 
           <img
-            src="/wedding-web/public/photos/13.TS-TIN-20260110.jpg"
+            src="/photos/13.TS-TIN-20260110.jpg"
             className="rounded-[30px] h-[500px] object-cover hover:-translate-y-2 duration-500"
           />
 
