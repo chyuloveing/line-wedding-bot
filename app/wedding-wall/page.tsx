@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { DynaPuff } from "next/font/google";
+
+const dyna = DynaPuff({
+  subsets: ["latin"],
+});
 
 type Photo = {
   id: number;
@@ -26,8 +31,10 @@ export default function Home() {
       }
     };
 
+    // 第一次載入
     loadPhotos();
 
+    // 每 5 秒更新
     const interval = setInterval(() => {
       loadPhotos();
     }, 5000);
@@ -38,6 +45,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-pink-50 p-6">
       <div className="max-w-6xl mx-auto">
+        {/* 標題 */}
         <h1 className="text-5xl font-bold text-center text-pink-500 mb-4">
           💍 婚禮照片牆
         </h1>
@@ -46,8 +54,11 @@ export default function Home() {
           即時婚禮回憶牆 ❤️
         </p>
 
+        {/* Loading */}
         {loading ? (
-          <p className="text-center text-gray-500 text-lg">載入中...</p>
+          <p className="text-center text-gray-500 text-lg">
+            載入中...
+          </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
             {photos.map((photo, index) => (
@@ -85,87 +96,80 @@ export default function Home() {
                   <img
                     src={photo.url}
                     alt={`Photo ${photo.id}`}
-                    className="w-full h-full object-cover"
+                    className="
+                      w-full
+                      h-full
+                      object-cover
+                    "
                   />
                 </div>
 
-                {/* 下方拍立得白邊裝飾區 */}
-                <div className="relative h-36 bg-white overflow-hidden">
-                  {/* 左下角：你的新人插畫照片 */}
+                {/* 下方白邊 */}
+                <div className="relative h-40 bg-white overflow-hidden">
+                  {/* 左下角新人插畫 */}
                   <img
                     src="/decor/couple.png"
-                    alt="Couple Illustration"
+                    alt="Couple"
                     className="
                       absolute
-                      left-[-8px]
-                      bottom-[-6px]
-                      w-32
-                      sm:w-36
+                      left-[-5px]
+                      bottom-0
+                      w-36
                       object-contain
                       z-10
                     "
                   />
 
-                  {/* 中間文字 */}
+                  {/* 可愛文字 */}
                   <div
-                    className="
+                    className={`
                       absolute
-                      left-[130px]
-                      top-6
+                      left-[145px]
+                      top-7
                       text-left
                       z-10
-                    "
+                      ${dyna.className}
+                    `}
                   >
                     <p
                       className="
-                        text-pink-500
-                        text-xl
+                        text-pink-400
+                        text-2xl
                         font-bold
-                        tracking-widest
+                        tracking-[0.15em]
                         leading-relaxed
+                        drop-shadow-sm
                       "
-                      style={{
-                        fontFamily:
-                          "'Comic Sans MS', 'Microsoft JhengHei', cursive",
-                      }}
                     >
                       易鑫 ❤️ 湘渝
                     </p>
 
                     <p
                       className="
-                        text-pink-400
-                        text-lg
+                        text-pink-300
+                        text-xl
                         font-bold
-                        tracking-widest
+                        tracking-[0.15em]
                         leading-relaxed
                       "
-                      style={{
-                        fontFamily:
-                          "'Comic Sans MS', 'Microsoft JhengHei', cursive",
-                      }}
                     >
                       Thank You
                     </p>
 
                     <p
                       className="
-                        text-pink-400
-                        text-lg
+                        text-pink-300
+                        text-xl
                         font-bold
-                        tracking-widest
+                        tracking-[0.15em]
                       "
-                      style={{
-                        fontFamily:
-                          "'Comic Sans MS', 'Microsoft JhengHei', cursive",
-                      }}
                     >
-                      2025.01.12
+                      2027.03.25
                     </p>
                   </div>
 
-                  {/* 右下角花朵 */}
-                  <div className="absolute right-3 bottom-3 w-16 h-20 opacity-90">
+                  {/* 右下花朵 */}
+                  <div className="absolute right-4 bottom-4 w-16 h-20 opacity-90">
                     <svg
                       viewBox="0 0 120 160"
                       fill="none"
@@ -173,32 +177,37 @@ export default function Home() {
                     >
                       <path
                         d="M62 72 C70 62 86 64 88 77 C90 90 73 96 62 88 C51 96 34 90 36 77 C38 64 54 62 62 72Z"
-                        stroke="#333"
+                        stroke="#444"
                         strokeWidth="4"
                       />
+
                       <path
                         d="M62 72 C58 58 66 48 78 51 C90 54 91 70 78 77"
-                        stroke="#333"
+                        stroke="#444"
                         strokeWidth="4"
                       />
+
                       <path
                         d="M62 72 C52 60 38 62 34 73 C30 84 42 96 57 88"
-                        stroke="#333"
+                        stroke="#444"
                         strokeWidth="4"
                       />
+
                       <path
                         d="M62 88 C62 105 62 124 62 150"
-                        stroke="#333"
+                        stroke="#444"
                         strokeWidth="4"
                       />
+
                       <path
                         d="M62 120 C45 110 32 112 18 126"
-                        stroke="#333"
+                        stroke="#444"
                         strokeWidth="4"
                       />
+
                       <path
                         d="M62 132 C78 120 94 122 108 136"
-                        stroke="#333"
+                        stroke="#444"
                         strokeWidth="4"
                       />
                     </svg>
@@ -208,6 +217,10 @@ export default function Home() {
             ))}
           </div>
         )}
+      </div>
+    </main>
+  );
+}
       </div>
     </main>
   );
