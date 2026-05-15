@@ -58,7 +58,7 @@ export default function Page() {
         <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-12 py-5">
 
           <h1 className="text-white text-2xl lg:text-4xl tracking-[4px] font-serif">
-            Yin & Lin
+            Tain & Shih
           </h1>
 
           <a
@@ -79,7 +79,7 @@ export default function Page() {
       <section className="relative h-screen">
 
         <img
-          src="/images/main.jpg"
+          src="/photos/16.TS-TIN-20260110.jpg"
           className="absolute inset-0 w-full h-full object-cover brightness-[55%]"
         />
 
@@ -134,7 +134,7 @@ export default function Page() {
             </div>
 
             <h1 className="text-white text-6xl lg:text-[140px] font-serif font-light leading-none">
-              Yin & Lin
+              Tain & Shih
             </h1>
 
           </div>
@@ -151,7 +151,7 @@ export default function Page() {
 
         <div>
           <img
-            src="/images/story.jpg"
+            src="/photos/15.TS-TIN-20260110.jpg"
             className="w-full h-full object-cover"
           />
         </div>
@@ -203,17 +203,17 @@ export default function Page() {
         <div className="grid lg:grid-cols-3 gap-6">
 
           <img
-            src="/images/gallery1.jpg"
+            src="/photos/7.TS-TIN-20260110.jpg"
             className="rounded-[30px] h-[500px] object-cover hover:-translate-y-2 duration-500"
           />
 
           <img
-            src="/images/gallery2.jpg"
+            src="/photos/12.TS-TIN-20260110.jpg"
             className="rounded-[30px] h-[500px] object-cover hover:-translate-y-2 duration-500"
           />
 
           <img
-            src="/images/gallery3.jpg"
+            src="/photos/13.TS-TIN-20260110.jpg"
             className="rounded-[30px] h-[500px] object-cover hover:-translate-y-2 duration-500"
           />
 
@@ -277,7 +277,7 @@ export default function Page() {
       >
 
         <h2 className="text-6xl lg:text-8xl font-serif mb-10">
-          Yin & Lin
+          Tain & Shih
         </h2>
 
         <a
@@ -384,7 +384,7 @@ export default function Page() {
       <footer className="bg-[#b4662d] text-white text-center py-20">
 
         <h2 className="text-5xl lg:text-7xl font-serif mb-6">
-          Yin & Lin
+          Tain & Shih
         </h2>
 
         <p className="tracking-[4px] text-lg">
