@@ -2,20 +2,31 @@
 
 import { useEffect, useRef, useState } from "react";
 
-export default function Invite() {
-  const [show, setShow] = useState(false);
+const photos = [
+  "/photos/1.TS-TIN-20260110.jpg",
+  "/photos/2.TS-TIN-20260110.jpg",
+  "/photos/3.TS-TIN-20260110.jpg",
+];
+
+export default function Home() {
+  const [index, setIndex] = useState(0);
   const [started, setStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // 進場動畫
+  // 輪播
   useEffect(() => {
-    setTimeout(() => setShow(true), 300);
-  }, []);
+    if (!started) return;
+
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % photos.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [started]);
 
   // 播音樂
-  const startMusic = () => {
+  const start = () => {
     setStarted(true);
-
     if (audioRef.current) {
       audioRef.current.volume = 0.5;
       audioRef.current.play().catch(() => {});
@@ -23,89 +34,127 @@ export default function Invite() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-pink-100 to-white text-gray-800 overflow-hidden">
+    <div className="bg-white text-gray-800">
 
-      {/* 🎵 音樂 */}
+      {/* 音樂 */}
       <audio ref={audioRef} src="/music.mp3" loop />
 
-      {/* 🌸 內容 */}
-      <div
-        className={`transition-all duration-1000 ${
-          show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-      >
-        {/* 標題 */}
-        <div className="text-center pt-16 mb-10">
-          <h1 className="text-4xl font-bold text-pink-500 mb-4">
-            💍 婚禮邀請
-          </h1>
-          <p className="text-lg">誠摯邀請您見證我們的重要時刻 ❤️</p>
-        </div>
+      {/* 🎬 Hero 婚紗 */}
+      <div className="relative h-screen bg-black overflow-hidden">
 
-        {/* 新人 */}
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-semibold">
+        <img
+          src={photos[index]}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+        />
+
+        <div className="absolute inset-0 bg-black/40" />
+
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center z-10">
+          <h1 className="text-4xl md:text-6xl font-bold mb-4">
             易見 ❤️ 渝生
-          </h2>
+          </h1>
+          <p className="text-xl">2026.01.10</p>
         </div>
 
-        {/* 卡片區 */}
-        <div className="space-y-6 px-6">
-
-          {/* 時間 */}
-          <div className="bg-white rounded-2xl shadow p-6">
-            <h3 className="text-xl font-bold mb-2">📅 婚禮時間</h3>
-            <p>2026 年 01 月 10 日（六）</p>
-            <p>午宴 11:30 入席</p>
-          </div>
-
-          {/* 地點 */}
-          <div className="bg-white rounded-2xl shadow p-6">
-            <h3 className="text-xl font-bold mb-2">📍 婚禮地點</h3>
-            <p>台北某某飯店</p>
-            <a
-              href="https://maps.google.com"
-              target="_blank"
-              className="text-blue-500 underline"
+        {!started && (
+          <div className="absolute bottom-10 w-full flex justify-center z-20">
+            <button
+              onClick={start}
+              className="bg-white text-black px-6 py-3 rounded-full shadow"
             >
-              點我開啟地圖
-            </a>
+              ▶ 開啟邀請函
+            </button>
           </div>
+        )}
+      </div>
 
+      {/* 💍 婚禮資訊 */}
+      <div className="px-6 py-16 space-y-6 max-w-xl mx-auto">
+
+        <div className="bg-pink-50 p-6 rounded-2xl shadow text-center">
+          <h2 className="text-xl font-bold mb-2">📅 婚禮時間</h2>
+          <p>2026 年 01 月 10 日</p>
+          <p>11:30 入席</p>
         </div>
 
-        {/* 按鈕 */}
-        <div className="space-y-4 px-6 mt-10">
-
+        <div className="bg-pink-50 p-6 rounded-2xl shadow text-center">
+          <h2 className="text-xl font-bold mb-2">📍 婚禮地點</h2>
+          <p>台北某某飯店</p>
           <a
-            href="/love-story"
-            className="block text-center bg-pink-500 text-white py-4 rounded-full text-lg shadow"
+            href="https://maps.google.com"
+            target="_blank"
+            className="text-blue-500 underline"
           >
-            💍 我們的故事
+            點我開啟地圖
           </a>
+        </div>
 
-          <a
-            href="/"
-            className="block text-center bg-white border py-4 rounded-full text-lg shadow"
+      </div>
+
+      {/* 💍 按鈕區 */}
+      <div className="px-6 space-y-4 max-w-xl mx-auto">
+
+        <a
+          href="/love-story"
+          className="block text-center bg-pink-500 text-white py-4 rounded-full text-lg shadow"
+        >
+          💍 我們的故事
+        </a>
+
+        <a
+          href="/invite"
+          className="block text-center bg-white border py-4 rounded-full text-lg shadow"
+        >
+          💌 電子喜帖
+        </a>
+
+      </div>
+
+      {/* 💌 RSVP */}
+      <div className="px-6 py-16 max-w-xl mx-auto">
+
+        <div className="bg-white rounded-2xl shadow p-6 space-y-4">
+
+          <h3 className="text-xl font-bold">💌 出席回覆</h3>
+
+          <input id="name" placeholder="姓名" className="w-full border p-3 rounded-lg" />
+          <select id="attend" className="w-full border p-3 rounded-lg">
+            <option value="yes">會出席</option>
+            <option value="no">無法出席</option>
+          </select>
+          <input id="people" placeholder="人數" className="w-full border p-3 rounded-lg" />
+
+          <button
+            onClick={async () => {
+              const name = (document.getElementById("name") as HTMLInputElement).value;
+              const attend = (document.getElementById("attend") as HTMLSelectElement).value;
+              const people = (document.getElementById("people") as HTMLInputElement).value;
+
+              await fetch("/api/rsvp", {
+                method: "POST",
+                body: JSON.stringify({ name, attend, people }),
+              });
+
+              alert("已送出 ❤️");
+            }}
+            className="w-full bg-pink-500 text-white py-3 rounded-lg"
           >
-            📸 婚禮照片牆
-          </a>
+            送出
+          </button>
 
         </div>
 
       </div>
 
-      {/* ▶️ 播音樂按鈕（LINE 必要） */}
-      {!started && (
-        <div className="fixed bottom-6 w-full flex justify-center">
-          <button
-            onClick={startMusic}
-            className="bg-pink-500 text-white px-6 py-3 rounded-full shadow-lg"
-          >
-            ▶ 播放音樂
-          </button>
-        </div>
-      )}
+      {/* 📸 照片牆入口 */}
+      <div className="text-center pb-20">
+        <a
+          href="/"
+          className="text-pink-500 underline"
+        >
+          📸 查看婚禮照片牆
+        </a>
+      </div>
 
     </div>
   );
