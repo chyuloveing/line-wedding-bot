@@ -114,7 +114,7 @@ def handle_message(event):
                                     text=(
                                         "💍 婚禮照片牆 ❤️\n\n"
                                         "歡迎查看即時婚禮回憶：\n"
-                                        "https://line-wedding-bot0618.vercel.app/"
+                                        "https://line-wedding-bot0618.vercel.app/wedding-wall"
                                     )
                                 )
                             ]
