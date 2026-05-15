@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const photos = [
-  "/photos/1.TS-TIN-20260110.jpg",
   "/photos/2.TS-TIN-20260110.jpg",
-  "/photos/3.TS-TIN-20260110.jpg",
+  "/photos/9.TS-TIN-20260110.jpg",
+  "/photos/23.TS-TIN-20260110.jpg",
 ];
 
 export default function Home() {
@@ -51,7 +51,7 @@ export default function Home() {
 
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center z-10">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            易見 ❤️ 渝生
+            易鑫 ❤️ 湘渝
           </h1>
           <p className="text-xl">2026.01.10</p>
         </div>
@@ -98,7 +98,7 @@ export default function Home() {
           href="/love-story"
           className="block text-center bg-pink-500 text-white py-4 rounded-full text-lg shadow"
         >
-          💍 我們的故事
+          💍 婚紗放閃
         </a>
 
         <a
