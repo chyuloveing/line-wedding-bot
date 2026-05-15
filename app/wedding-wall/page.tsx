@@ -129,7 +129,7 @@ export default function Home() {
                           "'Comic Sans MS', 'Microsoft JhengHei', cursive",
                       }}
                     >
-                      易鑫 & 湘渝
+                      易鑫 ❤️ 湘渝
                     </p>
 
                     <p
