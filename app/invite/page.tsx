@@ -1,161 +1,132 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
-const photos = [
-  "/photos/2.TS-TIN-20260110.jpg",
-  "/photos/9.TS-TIN-20260110.jpg",
-  "/photos/23.TS-TIN-20260110.jpg",
-];
+export default function RSVP() {
+  const [loading, setLoading] = useState(false);
+  const [attend, setAttend] = useState("yes");
+  const [child, setChild] = useState(0);
+  const [veg, setVeg] = useState(false);
 
-export default function Home() {
-  const [index, setIndex] = useState(0);
-  const [started, setStarted] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const handleSubmit = async () => {
+    setLoading(true);
 
-  // 輪播
-  useEffect(() => {
-    if (!started) return;
+    const data = {
+      name: (document.getElementById("name") as HTMLInputElement).value,
+      relation: (document.getElementById("relation") as HTMLSelectElement).value,
+      attend,
+      adult: (document.getElementById("adult") as HTMLInputElement).value,
+      child,
+      kidSeat: (document.getElementById("kidSeat") as HTMLInputElement)?.value || 0,
+      vegetarian: veg
+        ? (document.getElementById("vegCount") as HTMLInputElement)?.value || 0
+        : 0,
+      message: (document.getElementById("message") as HTMLTextAreaElement).value,
+    };
 
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % photos.length);
-    }, 4000);
+    await fetch("/api/rsvp", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
 
-    return () => clearInterval(interval);
-  }, [started]);
-
-  // 播音樂
-  const start = () => {
-    setStarted(true);
-    if (audioRef.current) {
-      audioRef.current.volume = 0.5;
-      audioRef.current.play().catch(() => {});
-    }
+    setLoading(false);
+    alert("💌 已送出祝福，謝謝您 ❤️");
   };
 
   return (
-    <div className="bg-white text-gray-800">
+    <div className="min-h-screen bg-pink-50 px-6 py-12">
+      <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-lg p-6 space-y-5">
 
-      {/* 音樂 */}
-      <audio ref={audioRef} src="/music.mp3" loop />
+        <h1 className="text-2xl font-bold text-center text-pink-500">
+          💌 婚禮出席回覆
+        </h1>
 
-      {/* 🎬 Hero 婚紗 */}
-      <div className="relative h-screen bg-black overflow-hidden">
+        {/* 姓名 */}
+        <input id="name" placeholder="您的大名" className="w-full border p-3 rounded-lg" />
 
-        <img
-          src={photos[index]}
-          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+        {/* 關係 */}
+        <select id="relation" className="w-full border p-3 rounded-lg">
+          <option>新娘親戚</option>
+          <option>新娘國小朋友</option>
+          <option>新娘國中朋友</option>
+          <option>新娘高中朋友</option>
+          <option>新娘大學朋友</option>
+          <option>新娘同事</option>
+          <option>新娘其他朋友</option>
+        </select>
+
+        {/* 是否出席 */}
+        <select
+          className="w-full border p-3 rounded-lg"
+          onChange={(e) =>
+            setAttend(e.target.value === "yes" ? "yes" : "no")
+          }
+        >
+          <option value="yes">我要參加！一起見證幸福時刻</option>
+          <option value="no">好傷心我無法出席，獻上真誠的祝福</option>
+        </select>
+
+        {/* 👇 只有出席才顯示 */}
+        {attend === "yes" && (
+          <>
+            {/* 人數 */}
+            <div className="grid grid-cols-2 gap-3">
+              <input id="adult" type="number" placeholder="成人人數" className="border p-3 rounded-lg" />
+              <input
+                type="number"
+                placeholder="兒童人數"
+                className="border p-3 rounded-lg"
+                onChange={(e) => setChild(Number(e.target.value))}
+              />
+            </div>
+
+            {/* 👶 有兒童才顯示 */}
+            {child > 0 && (
+              <input
+                id="kidSeat"
+                type="number"
+                placeholder="兒童座椅數量"
+                className="w-full border p-3 rounded-lg"
+              />
+            )}
+
+            {/* 🥬 素食 */}
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                onChange={(e) => setVeg(e.target.checked)}
+              />
+              <span>需要素食</span>
+            </div>
+
+            {veg && (
+              <input
+                id="vegCount"
+                type="number"
+                placeholder="素食份數"
+                className="w-full border p-3 rounded-lg"
+              />
+            )}
+          </>
+        )}
+
+        {/* 留言 */}
+        <textarea
+          id="message"
+          placeholder="祝福留言 ❤️"
+          className="w-full border p-3 rounded-lg h-24"
         />
 
-        <div className="absolute inset-0 bg-black/40" />
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center z-10">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            易鑫 ❤️ 湘渝
-          </h1>
-          <p className="text-xl">2026.01.10</p>
-        </div>
-
-        {!started && (
-          <div className="absolute bottom-10 w-full flex justify-center z-20">
-            <button
-              onClick={start}
-              className="bg-white text-black px-6 py-3 rounded-full shadow"
-            >
-              ▶ 開啟邀請函
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* 💍 婚禮資訊 */}
-      <div className="px-6 py-16 space-y-6 max-w-xl mx-auto">
-
-        <div className="bg-pink-50 p-6 rounded-2xl shadow text-center">
-          <h2 className="text-xl font-bold mb-2">📅 婚禮時間</h2>
-          <p>2026 年 01 月 10 日</p>
-          <p>11:30 入席</p>
-        </div>
-
-        <div className="bg-pink-50 p-6 rounded-2xl shadow text-center">
-          <h2 className="text-xl font-bold mb-2">📍 婚禮地點</h2>
-          <p>台北某某飯店</p>
-          <a
-            href="https://maps.google.com"
-            target="_blank"
-            className="text-blue-500 underline"
-          >
-            點我開啟地圖
-          </a>
-        </div>
-
-      </div>
-
-      {/* 💍 按鈕區 */}
-      <div className="px-6 space-y-4 max-w-xl mx-auto">
-
-        <a
-          href="/love-story"
-          className="block text-center bg-pink-500 text-white py-4 rounded-full text-lg shadow"
+        {/* 送出 */}
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full bg-pink-500 text-white py-3 rounded-full text-lg shadow"
         >
-          💍 婚紗放閃
-        </a>
-
-        <a
-          href="/invite"
-          className="block text-center bg-white border py-4 rounded-full text-lg shadow"
-        >
-          💌 電子喜帖
-        </a>
+          {loading ? "送出中..." : "送出回覆 💌"}
+        </button>
 
       </div>
-
-      {/* 💌 RSVP */}
-      <div className="px-6 py-16 max-w-xl mx-auto">
-
-        <div className="bg-white rounded-2xl shadow p-6 space-y-4">
-
-          <h3 className="text-xl font-bold">💌 出席回覆</h3>
-
-          <input id="name" placeholder="姓名" className="w-full border p-3 rounded-lg" />
-          <select id="attend" className="w-full border p-3 rounded-lg">
-            <option value="yes">會出席</option>
-            <option value="no">無法出席</option>
-          </select>
-          <input id="people" placeholder="人數" className="w-full border p-3 rounded-lg" />
-
-          <button
-            onClick={async () => {
-              const name = (document.getElementById("name") as HTMLInputElement).value;
-              const attend = (document.getElementById("attend") as HTMLSelectElement).value;
-              const people = (document.getElementById("people") as HTMLInputElement).value;
-
-              await fetch("/api/rsvp", {
-                method: "POST",
-                body: JSON.stringify({ name, attend, people }),
-              });
-
-              alert("已送出 ❤️");
-            }}
-            className="w-full bg-pink-500 text-white py-3 rounded-lg"
-          >
-            送出
-          </button>
-
-        </div>
-
-      </div>
-
-      {/* 📸 照片牆入口 */}
-      <div className="text-center pb-20">
-        <a
-          href="/"
-          className="text-pink-500 underline"
-        >
-          📸 查看婚禮照片牆
-        </a>
-      </div>
-
     </div>
   );
 }
