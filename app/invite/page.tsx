@@ -1,25 +1,48 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export default function RSVP() {
-  const [loading, setLoading] = useState(false);
+const photos = [
+  "/photos/2.TS-TIN-20260110.jpg",
+  "/photos/9.TS-TIN-20260110.jpg",
+  "/photos/23.TS-TIN-20260110.jpg",
+];
+
+export default function Home() {
+  const [index, setIndex] = useState(0);
+  const [started, setStarted] = useState(false);
   const [attend, setAttend] = useState("yes");
   const [child, setChild] = useState(0);
   const [veg, setVeg] = useState(false);
 
-  const handleSubmit = async () => {
-    setLoading(true);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // 輪播
+  useEffect(() => {
+    if (!started) return;
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % photos.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [started]);
+
+  // 開始
+  const start = () => {
+    setStarted(true);
+    audioRef.current?.play().catch(() => {});
+  };
+
+  // 送出 RSVP
+  const submitRSVP = async () => {
     const data = {
       name: (document.getElementById("name") as HTMLInputElement).value,
       relation: (document.getElementById("relation") as HTMLSelectElement).value,
       attend,
-      adult: (document.getElementById("adult") as HTMLInputElement).value,
+      adult: (document.getElementById("adult") as HTMLInputElement)?.value,
       child,
-      kidSeat: (document.getElementById("kidSeat") as HTMLInputElement)?.value || 0,
+      kidSeat: (document.getElementById("kidSeat") as HTMLInputElement)?.value,
       vegetarian: veg
-        ? (document.getElementById("vegCount") as HTMLInputElement)?.value || 0
+        ? (document.getElementById("vegCount") as HTMLInputElement)?.value
         : 0,
       message: (document.getElementById("message") as HTMLTextAreaElement).value,
     };
@@ -29,104 +52,104 @@ export default function RSVP() {
       body: JSON.stringify(data),
     });
 
-    setLoading(false);
-    alert("💌 已送出祝福，謝謝您 ❤️");
+    alert("💌 已送出 ❤️");
   };
 
   return (
-    <div className="min-h-screen bg-pink-50 px-6 py-12">
-      <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-lg p-6 space-y-5">
+    <div className="bg-white text-gray-800">
 
-        <h1 className="text-2xl font-bold text-center text-pink-500">
-          💌 婚禮出席回覆
-        </h1>
+      {/* 音樂 */}
+      <audio ref={audioRef} src="/music.mp3" loop />
 
-        {/* 姓名 */}
-        <input id="name" placeholder="您的大名" className="w-full border p-3 rounded-lg" />
+      {/* 🎬 Hero */}
+      <div className="relative h-screen bg-black overflow-hidden">
 
-        {/* 關係 */}
-        <select id="relation" className="w-full border p-3 rounded-lg">
-          <option>新娘親戚</option>
-          <option>新娘國小朋友</option>
-          <option>新娘國中朋友</option>
-          <option>新娘高中朋友</option>
-          <option>新娘大學朋友</option>
-          <option>新娘同事</option>
-          <option>新娘其他朋友</option>
-        </select>
+        <img
+          src={photos[index]}
+          className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+        />
 
-        {/* 是否出席 */}
-        <select
-          className="w-full border p-3 rounded-lg"
-          onChange={(e) =>
-            setAttend(e.target.value === "yes" ? "yes" : "no")
-          }
-        >
-          <option value="yes">我要參加！一起見證幸福時刻</option>
-          <option value="no">好傷心我無法出席，獻上真誠的祝福</option>
-        </select>
+        <div className="absolute inset-0 bg-black/40" />
 
-        {/* 👇 只有出席才顯示 */}
-        {attend === "yes" && (
-          <>
-            {/* 人數 */}
-            <div className="grid grid-cols-2 gap-3">
-              <input id="adult" type="number" placeholder="成人人數" className="border p-3 rounded-lg" />
+        <div className="absolute inset-0 flex flex-col items-center justify-center text-white text-center">
+          <h1 className="text-4xl md:text-6xl font-bold">易見 ❤️ 渝生</h1>
+          <p className="mt-3 text-xl">2026.01.10</p>
+        </div>
+
+        {!started && (
+          <div className="absolute bottom-10 w-full flex justify-center">
+            <button
+              onClick={start}
+              className="bg-white text-black px-6 py-3 rounded-full"
+            >
+              ▶ 開啟邀請函
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 💍 婚禮資訊 */}
+      <div className="p-6 space-y-6 max-w-xl mx-auto">
+        <div className="bg-pink-50 p-6 rounded-xl text-center">
+          <h2 className="font-bold">📅 婚禮時間</h2>
+          <p>2026/01/10 11:30</p>
+        </div>
+      </div>
+
+      {/* 💌 RSVP */}
+      <div className="bg-pink-50 py-12 px-6">
+        <div className="max-w-xl mx-auto bg-white p-6 rounded-3xl shadow space-y-4">
+
+          <h2 className="text-xl font-bold text-center text-pink-500">
+            💌 出席回覆
+          </h2>
+
+          <input id="name" placeholder="您的大名" className="w-full border p-3 rounded-lg" />
+
+          <select id="relation" className="w-full border p-3 rounded-lg">
+            <option>新娘親戚</option>
+            <option>新娘朋友</option>
+          </select>
+
+          <select onChange={(e) => setAttend(e.target.value)}>
+            <option value="yes">我要參加</option>
+            <option value="no">無法出席</option>
+          </select>
+
+          {attend === "yes" && (
+            <>
+              <input id="adult" type="number" placeholder="成人人數" />
               <input
                 type="number"
                 placeholder="兒童人數"
-                className="border p-3 rounded-lg"
                 onChange={(e) => setChild(Number(e.target.value))}
               />
-            </div>
 
-            {/* 👶 有兒童才顯示 */}
-            {child > 0 && (
-              <input
-                id="kidSeat"
-                type="number"
-                placeholder="兒童座椅數量"
-                className="w-full border p-3 rounded-lg"
-              />
-            )}
+              {child > 0 && (
+                <input id="kidSeat" placeholder="兒童座椅數量" />
+              )}
 
-            {/* 🥬 素食 */}
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                onChange={(e) => setVeg(e.target.checked)}
-              />
-              <span>需要素食</span>
-            </div>
+              <label>
+                <input type="checkbox" onChange={(e) => setVeg(e.target.checked)} />
+                素食
+              </label>
 
-            {veg && (
-              <input
-                id="vegCount"
-                type="number"
-                placeholder="素食份數"
-                className="w-full border p-3 rounded-lg"
-              />
-            )}
-          </>
-        )}
+              {veg && <input id="vegCount" placeholder="素食數量" />}
+            </>
+          )}
 
-        {/* 留言 */}
-        <textarea
-          id="message"
-          placeholder="祝福留言 ❤️"
-          className="w-full border p-3 rounded-lg h-24"
-        />
+          <textarea id="message" placeholder="祝福留言 ❤️" />
 
-        {/* 送出 */}
-        <button
-          onClick={handleSubmit}
-          disabled={loading}
-          className="w-full bg-pink-500 text-white py-3 rounded-full text-lg shadow"
-        >
-          {loading ? "送出中..." : "送出回覆 💌"}
-        </button>
+          <button
+            onClick={submitRSVP}
+            className="w-full bg-pink-500 text-white py-3 rounded-full"
+          >
+            送出 💌
+          </button>
 
+        </div>
       </div>
+
     </div>
   );
 }
