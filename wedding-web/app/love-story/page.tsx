@@ -65,7 +65,7 @@ export default function LoveStory() {
     <div className="w-full h-screen bg-black relative overflow-hidden">
 
       {/* 音樂 */}
-      <audio ref={audioRef} src="/music.mp3" loop />
+      <audio ref={audioRef} src="/music/Just Want To Secretly Hide You.mp3" loop />
 
       {/* 📸 上一張（淡出） */}
       <img

@@ -64,7 +64,7 @@ export default function Home() {
     <div className="bg-white text-gray-800">
 
       {/* 音樂 */}
-      <audio ref={audioRef} src="/music.mp3" loop />
+      <audio ref={audioRef} src="/music/Lover.mp3" loop />
 
       {/* Hero */}
       <div className="relative h-screen bg-black overflow-hidden">
