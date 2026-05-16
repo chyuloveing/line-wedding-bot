@@ -154,8 +154,3 @@ export default function LivePage() {
     </main>
   );
 }
-        </p>
-      </div>
-    </main>
-  );
-}
